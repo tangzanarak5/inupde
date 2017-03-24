@@ -12,9 +12,9 @@
     <h1>Data ที่มีทั้งหมด อิอิ</h1>
 
     <div v-for="showData in dataTable">
-      <input v-if = "showData.statusEdit == true" type="text" v-model = "newData">
+      <input v-if = "showData.statusEdit == true" type="text" v-model = "showData.inData">
       <button v-if = "showData.statusEdit == true" type="button" @click = "changeToData(showData.id, showData.inData)">change</button>
-      <span v-else >{{ showData.inData }} {{showData.id}} </span>
+      <span v-else > {{ showData.inData }} </span>
       <button type="button" @click = "edit(showData.id, showData.inData)">edit</button>
       <button type="button" @click = "deleteToData(showData)">delete</button>
 
@@ -87,14 +87,13 @@ export default {
       this.count = id
       this.newData = data
     },
-    changeToData (id) {
+    changeToData (id, data) {
       var vm = this
       firebase.database().ref('dataTable/' + id).update({
-        inData: vm.dataTable.inData = vm.newData,
+        inData: vm.dataTable.inData = data,
         statusEdit: vm.dataTable.statusEdit = false
       })
       this.editData = false
-      this.newData = ''
     },
     deleteToData: function (showData) {
       firebase.database().ref('dataTable/' + showData.id).remove()
